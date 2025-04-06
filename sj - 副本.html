@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>适老化导诊APP</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- 引入 Remix Icon -->
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    <style>
+        /* iOS 风格的细节样式 */
+        .ios-blur {
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+        .ios-search::-webkit-input-placeholder {
+            color: #999;
+            font-size: 17px;
+        }
+        .organ-highlight {
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { opacity: 0.7; }
+            50% { opacity: 1; }
+            100% { opacity: 0.7; }
+        }
+        /* 隐藏滚动条但保留滚动功能 */
+        .hide-scrollbar {
+            -ms-overflow-style: none;  /* IE and Edge */
+            scrollbar-width: none;  /* Firefox */
+        }
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;  /* Chrome, Safari, Opera */
+        }
+    </style>
+</head>
+<body class="bg-gray-100 p-8">
+    <div class="flex gap-8 overflow-x-auto">
+        <!-- 分诊页面 -->
+        <div class="w-[375px] h-[812px] bg-white flex flex-col">
+            <!-- 状态栏 -->
+            <div class="flex justify-between items-center px-5 pt-3 pb-1">
+                <!-- 左侧时间 -->
+                <span class="font-semibold text-sm">9:41</span>
+                
+                <!-- 右侧状态图标 -->
+                <div class="flex items-center gap-1">
+                    <!-- 信号强度 -->
+                    <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
+                        <rect x="2" y="15" width="4" height="5" rx="1" />
+                        <rect x="8" y="11" width="4" height="9" rx="1" />
+                        <rect x="14" y="7" width="4" height="13" rx="1" />
+                        <rect x="20" y="3" width="4" height="17" rx="1" />
+                    </svg>
+                    
+                    <!-- WiFi图标 -->
+                    <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12,21L15.6,16.2C14.6,15.45 13.35,15 12,15C10.65,15 9.4,15.45 8.4,16.2L12,21" />
+                        <path opacity="0.9" d="M12,9C8.5,9 5.3,10.5 3,13.2L4.2,14.6C6.2,12.4 9,11 12,11C15,11 17.8,12.4 19.8,14.6L21,13.2C18.7,10.5 15.5,9 12,9Z" />
+                        <path opacity="0.7" d="M12,3C7.95,3 4.21,4.34 1.2,6.6L2.4,8C5.1,6 8.5,5 12,5C15.5,5 18.9,6 21.55,7.95L22.8,6.6C19.75,4.34 16.05,3 12,3Z" />
+                    </svg>
+                    
+                    <!-- 电池图标 -->
+                    <svg class="w-6 h-3" viewBox="0 0 25 12" fill="currentColor">
+                        <rect x="0.5" y="0.5" width="21" height="11" rx="2.5" stroke="currentColor" fill="none" />
+                        <rect x="2" y="2" width="18" height="8" rx="1.5" />
+                        <rect x="23" y="4" width="2" height="4" rx="1" />
+                    </svg>
+                </div>
+            </div>
+
+            <!-- 顶部标题栏 -->
+            <div class="flex justify-between items-center px-5 py-3">
+                <h1 class="text-2xl font-semibold">导诊流程</h1>
+                <div class="flex items-center gap-3">
+                    <span class="text-orange-500 font-medium">AR</span>
+                    <i class="ri-edit-line text-xl text-orange-500"></i>
+                </div>
+            </div>
+
+            <!-- 修改流程进度条部分 -->
+            <div class="px-5 py-3">
+                <div class="flex items-center justify-between relative">
+                    <!-- 贯穿的虚线 -->
+                    <div class="absolute top-[6px] left-0 right-0 border-t-2 border-dashed border-gray-200"></div>
+                    
+                    <!-- 分诊 -->
+                    <div class="flex flex-col items-center z-10">
+                        <div class="w-3 h-3 rounded-full bg-orange-500 ring-4 ring-orange-50"></div>
+                        <span class="text-[10px] mt-2 text-orange-500">分诊</span>
+                    </div>
+                    
+                    <!-- 挂号 -->
+                    <div class="flex flex-col items-center z-10">
+                        <div class="w-3 h-3 rounded-full bg-gray-200 ring-4 ring-white"></div>
+                        <span class="text-[10px] mt-2 text-gray-400">挂号</span>
+                    </div>
+                    
+                    <!-- 签到 -->
+                    <div class="flex flex-col items-center z-10">
+                        <div class="w-3 h-3 rounded-full bg-gray-200 ring-4 ring-white"></div>
+                        <span class="text-[10px] mt-2 text-gray-400">签到</span>
+                    </div>
+                    
+                    <!-- 候诊 -->
+                    <div class="flex flex-col items-center z-10">
+                        <div class="w-3 h-3 rounded-full bg-gray-200 ring-4 ring-white"></div>
+                        <span class="text-[10px] mt-2 text-gray-400">候诊</span>
+                    </div>
+                    
+                    <!-- 就诊 -->
+                    <div class="flex flex-col items-center z-10">
+                        <div class="w-3 h-3 rounded-full bg-gray-200 ring-4 ring-white"></div>
+                        <span class="text-[10px] mt-2 text-gray-400">就诊</span>
+                    </div>
+                    
+                    <!-- 检查 -->
+                    <div class="flex flex-col items-center z-10">
+                        <div class="w-3 h-3 rounded-full bg-gray-200 ring-4 ring-white"></div>
+                        <span class="text-[10px] mt-2 text-gray-400">检查</span>
+                    </div>
+                    
+                    <!-- 复诊 -->
+                    <div class="flex flex-col items-center z-10">
+                        <div class="w-3 h-3 rounded-full bg-gray-200 ring-4 ring-white"></div>
+                        <span class="text-[10px] mt-2 text-gray-400">复诊</span>
+                    </div>
+                    
+                    <!-- 拿药 -->
+                    <div class="flex flex-col items-center z-10">
+                        <div class="w-3 h-3 rounded-full bg-gray-200 ring-4 ring-white"></div>
+                        <span class="text-[10px] mt-2 text-gray-400">拿药</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- iOS 风格搜索框 -->
+            <div class="px-5 py-2">
+                <div class="flex items-center bg-gray-50 rounded-xl px-4 py-2.5">
+                    <i class="ri-menu-line text-xl text-gray-400"></i>
+                    <input type="text" placeholder="请描述您的症状..." 
+                           class="ios-search flex-1 bg-transparent text-base px-3 outline-none">
+                    <i class="ri-mic-line text-xl text-orange-500"></i>
+                </div>
+            </div>
+
+            <!-- 身体导航区域 -->
+            <div class="flex-1 relative overflow-hidden">
+                <!-- 左侧器官选择 -->
+                <div class="absolute left-5 top-4 flex flex-col gap-4 z-10 h-[500px] overflow-y-auto hide-scrollbar pr-2 transition-all">
+                    <!-- 循环系统 -->
+                    <button class="organ-btn flex flex-col items-center" data-organ="heart">
+                        <div class="w-14 h-14 rounded-full bg-white shadow-sm border border-gray-100 flex items-center justify-center organ-icon">
+                            <i class="ri-heart-pulse-line text-2xl text-red-500"></i>
+                        </div>
+                        <span class="text-xs mt-1 text-gray-600 organ-text">心脏</span>
+                    </button>
+                    
+                    <!-- 呼吸系统 -->
+                    <button class="organ-btn flex flex-col items-center active" data-organ="lungs">
+                        <div class="w-14 h-14 rounded-full bg-orange-50 shadow-sm border border-orange-100 flex items-center justify-center organ-icon">
+                            <i class="ri-lungs-fill text-2xl text-orange-500"></i>
+                        </div>
+                        <span class="text-xs mt-1 text-orange-500 organ-text">肺部</span>
+                    </button>
+
+                    <!-- 消化系统 - 肝胆 -->
+                    <button class="organ-btn flex flex-col items-center" data-organ="liver">
+                        <div class="w-14 h-14 rounded-full bg-white shadow-sm border border-gray-100 flex items-center justify-center organ-icon">
+                            <i class="ri-medicine-bottle-fill text-2xl text-yellow-600"></i>
+                        </div>
+                        <span class="text-xs mt-1 text-gray-600 organ-text">肝胆</span>
+                    </button>
+
+                    <!-- 消化系统 - 胃部 -->
+                    <button class="organ-btn flex flex-col items-center" data-organ="stomach">
+                        <div class="w-14 h-14 rounded-full bg-white shadow-sm border border-gray-100 flex items-center justify-center organ-icon">
+                            <i class="ri-surgical-mask-line text-2xl text-green-600"></i>
+                        </div>
+                        <span class="text-xs mt-1 text-gray-600 organ-text">胃部</span>
+                    </button>
+
+                    <!-- 泌尿系统 -->
+                    <button class="organ-btn flex flex-col items-center" data-organ="kidney">
+                        <div class="w-14 h-14 rounded-full bg-white shadow-sm border border-gray-100 flex items-center justify-center organ-icon">
+                            <i class="ri-water-flash-line text-2xl text-blue-500"></i>
+                        </div>
+                        <span class="text-xs mt-1 text-gray-600 organ-text">泌尿</span>
+                    </button>
+
+                    <!-- 骨骼系统 -->
+                    <button class="organ-btn flex flex-col items-center" data-organ="bone">
+                        <div class="w-14 h-14 rounded-full bg-white shadow-sm border border-gray-100 flex items-center justify-center organ-icon">
+                            <i class="ri-skull-2-line text-2xl text-gray-600"></i>
+                        </div>
+                        <span class="text-xs mt-1 text-gray-600 organ-text">骨骼</span>
+                    </button>
+
+                    <!-- 神经系统 -->
+                    <button class="organ-btn flex flex-col items-center" data-organ="brain">
+                        <div class="w-14 h-14 rounded-full bg-white shadow-sm border border-gray-100 flex items-center justify-center organ-icon">
+                            <i class="ri-brain-line text-2xl text-purple-500"></i>
+                        </div>
+                        <span class="text-xs mt-1 text-gray-600 organ-text">神经</span>
+                    </button>
+
+                    <!-- 内分泌系统 -->
+                    <button class="organ-btn flex flex-col items-center" data-organ="endocrine">
+                        <div class="w-14 h-14 rounded-full bg-white shadow-sm border border-gray-100 flex items-center justify-center organ-icon">
+                            <i class="ri-virus-line text-2xl text-pink-500"></i>
+                        </div>
+                        <span class="text-xs mt-1 text-gray-600 organ-text">内分泌</span>
+                    </button>
+
+                    <!-- 血液系统 -->
+                    <button class="organ-btn flex flex-col items-center" data-organ="blood">
+                        <div class="w-14 h-14 rounded-full bg-white shadow-sm border border-gray-100 flex items-center justify-center organ-icon">
+                            <i class="ri-drop-fill text-2xl text-red-500"></i>
+                        </div>
+                        <span class="text-xs mt-1 text-gray-600 organ-text">血液</span>
+                    </button>
+
+                    <!-- 免疫系统 -->
+                    <button class="organ-btn flex flex-col items-center" data-organ="immune">
+                        <div class="w-14 h-14 rounded-full bg-white shadow-sm border border-gray-100 flex items-center justify-center organ-icon">
+                            <i class="ri-shield-star-line text-2xl text-green-500"></i>
+                        </div>
+                        <span class="text-xs mt-1 text-gray-600 organ-text">免疫</span>
+                    </button>
+                </div>
+
+                <!-- 人体图 - 更新SVG路径使其更真实 -->
+                <div class="h-full flex items-center justify-end pr-12">
+                    <div class="relative w-44">
+                        <svg viewBox="0 0 200 500" class="w-full">
+                            <!-- 头部 -->
+                            <path d="M100,30 
+                                     c15,0,27,12,27,27 
+                                     c0,15-12,27-27,27 
+                                     c-15,0-27-12-27-27 
+                                     c0-15,12-27,27-27" 
+                                  fill="#FFE5D9"/>
+                            
+                            <!-- 颈部 -->
+                            <path d="M85,84 
+                                     c0,0,15,10,30,0 
+                                     l5,20 
+                                     c0,0-20,10-40,0 
+                                     z" 
+                                  fill="#FFE5D9"/>
+                            
+                            <!-- 躯干 -->
+                            <path d="M65,104 
+                                     c0,0-5,100,0,180 
+                                     c0,0,70,15,70,0 
+                                     c5,-80,0,-180,0,-180 
+                                     c0,0,-35,20,-70,0" 
+                                  fill="#FFE5D9"/>
+                            
+                            <!-- 手臂 -->
+                            <path d="M65,104 
+                                     c-10,0,-20,60,-15,120 
+                                     c0,10,10,10,15,0 
+                                     c5,-40,5,-80,0,-120" 
+                                  fill="#FFE5D9"/>
+                            <path d="M135,104 
+                                     c10,0,20,60,15,120 
+                                     c0,10,-10,10,-15,0 
+                                     c-5,-40,-5,-80,0,-120" 
+                                  fill="#FFE5D9"/>
+                            
+                            <!-- 腿部 -->
+                            <path d="M65,284 
+                                     l10,180 
+                                     c0,0,15,10,25,0 
+                                     l-5,-180 
+                                     c0,0,-15,5,-30,0" 
+                                  fill="#FFE5D9"/>
+                            <path d="M135,284 
+                                     l-10,180 
+                                     c0,0,-15,10,-25,0 
+                                     l5,-180 
+                                     c0,0,15,5,30,0" 
+                                  fill="#FFE5D9"/>
+                            
+                            <!-- 心脏 - 更真实的形状 -->
+                            <path id="heart-highlight" 
+                                  d="M85,140 c-2,-10,-10,-15,-15,-10 c-5,5,-5,15,5,25 c10,10,25,15,25,15 c0,0,15,-5,25,-15 c10,-10,10,-20,5,-25 c-5,-5,-13,0,-15,10 c-2,-10,-10,-15,-15,-10 c-5,5,-5,15,-5,15 c0,0,0,-10,-5,-15 c-5,-5,-13,0,-15,10" 
+                                  fill="#FF6B6B" style="display:none;" class="organ-highlight"/>
+                            
+                            <!-- 肺部 - 更真实的形状 -->
+                            <path id="lungs-highlight" 
+                                  d="M70,120 c-5,0,-10,5,-15,15 c-5,10,-5,25,0,40 c5,15,15,25,25,25 c10,0,15,-5,20,-15 
+                                     M130,120 c5,0,10,5,15,15 c5,10,5,25,0,40 c-5,15,-15,25,-25,25 c-10,0,-15,-5,-20,-15
+                                     M100,120 v50" 
+                                  fill="#FFA07A" class="organ-highlight"/>
+                            
+                            <!-- 肝脏 - 更真实的形状 -->
+                            <path id="liver-highlight" 
+                                  d="M75,170 c-5,5,-10,15,-5,25 c5,10,15,15,30,15 c15,0,25,-5,30,-15 c5,-10,0,-20,-5,-25 c-5,-5,-15,-5,-25,0 c-10,-5,-20,-5,-25,0" 
+                                  fill="#FDBA74" style="display:none;" class="organ-highlight"/>
+                            
+                            <!-- 胃部 - 更真实的J形状 -->
+                            <path id="stomach-highlight" 
+                                  d="M85,180 c-5,0,-10,5,-10,15 c0,10,0,20,10,25 c10,5,20,5,30,0 c10,-5,10,-15,5,-25 c-5,-10,-15,-15,-20,-15 c-5,0,-10,5,-15,0" 
+                                  fill="#86EFAC" style="display:none;" class="organ-highlight"/>
+                            
+                            <!-- 泌尿系统 - 更真实的肾脏形状 -->
+                            <path id="kidney-highlight" 
+                                  d="M70,210 c-5,0,-10,5,-10,15 c0,10,5,15,15,15 c10,0,15,-5,15,-15 c0,-10,-5,-15,-10,-15 c-5,0,-10,0,-10,0
+                                     M110,210 c5,0,10,5,10,15 c0,10,-5,15,-15,15 c-10,0,-15,-5,-15,-15 c0,-10,5,-15,10,-15 c5,0,10,0,10,0
+                                     M85,240 c0,0,5,20,15,20 c10,0,15,-20,15,-20" 
+                                  fill="#93C5FD" style="display:none;" class="organ-highlight"/>
+                            
+                            <!-- 骨骼系统 - 脊柱 -->
+                            <path id="bone-highlight" 
+                                  d="M100,100 v200 M90,110 h20 M90,130 h20 M90,150 h20 M90,170 h20 M90,190 h20 M90,210 h20 M90,230 h20 M90,250 h20 M90,270 h20" 
+                                  stroke="#E5E7EB" stroke-width="5" fill="none" style="display:none;" class="organ-highlight"/>
+                            
+                            <!-- 大脑 -->
+                            <path id="brain-highlight" 
+                                  d="M100,40 c-15,0,-25,10,-25,20 c0,10,10,20,25,20 c15,0,25,-10,25,-20 c0,-10,-10,-20,-25,-20 M85,50 c-5,0,-5,5,-5,10 c0,5,0,10,5,10 M115,50 c5,0,5,5,5,10 c0,5,0,10,-5,10" 
+                                  fill="#E9D5FF" style="display:none;" class="organ-highlight"/>
+                            
+                            <!-- 内分泌系统 - 甲状腺 -->
+                            <path id="endocrine-highlight" 
+                                  d="M100,90 c-10,0,-15,5,-15,10 c0,5,5,10,15,10 c10,0,15,-5,15,-10 c0,-5,-5,-10,-15,-10" 
+                                  fill="#FCE7F3" style="display:none;" class="organ-highlight"/>
+                            
+                            <!-- 血液系统 -->
+                            <path id="blood-highlight" 
+                                  d="M65,150 c5,0,10,50,15,100 M135,150 c-5,0,-10,50,-15,100 M85,120 c5,0,10,30,15,60 M115,120 c-5,0,-10,30,-15,60" 
+                                  stroke="#FCA5A5" stroke-width="3" fill="none" style="display:none;" class="organ-highlight"/>
+                            
+                            <!-- 免疫系统 - 淋巴结 -->
+                            <path id="immune-highlight" 
+                                  d="M80,120 c-3,0,-5,2,-5,5 c0,3,2,5,5,5 c3,0,5,-2,5,-5 c0,-3,-2,-5,-5,-5 M120,120 c-3,0,-5,2,-5,5 c0,3,2,5,5,5 c3,0,5,-2,5,-5 c0,-3,-2,-5,-5,-5 M70,180 c-3,0,-5,2,-5,5 c0,3,2,5,5,5 c3,0,5,-2,5,-5 c0,-3,-2,-5,-5,-5 M130,180 c-3,0,-5,2,-5,5 c0,3,2,5,5,5 c3,0,5,-2,5,-5 c0,-3,-2,-5,-5,-5 M100,220 c-3,0,-5,2,-5,5 c0,3,2,5,5,5 c3,0,5,-2,5,-5 c0,-3,-2,-5,-5,-5" 
+                                  fill="#D1FAE5" style="display:none;" class="organ-highlight"/>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+
+            <!-- iOS 风格底部导航 -->
+            <div class="flex justify-around items-center py-4 border-t border-gray-100">
+                <button class="flex flex-col items-center">
+                    <i class="ri-hospital-line text-2xl text-orange-500"></i>
+                    <span class="text-xs mt-1 text-orange-500">医路</span>
+                </button>
+                <button class="flex flex-col items-center">
+                    <i class="ri-question-line text-2xl text-gray-400"></i>
+                    <span class="text-xs mt-1 text-gray-400">帮助</span>
+                </button>
+                <button class="flex flex-col items-center">
+                    <i class="ri-user-line text-2xl text-gray-400"></i>
+                    <span class="text-xs mt-1 text-gray-400">我的</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- 后续会添加挂号页面和签到页面 -->
+    </div>
+
+    <script>
+        // 器官切换功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const organButtons = document.querySelectorAll('.organ-btn');
+            
+            organButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    // 移除所有按钮的激活状态
+                    organButtons.forEach(btn => {
+                        btn.classList.remove('active');
+                        const icon = btn.querySelector('.organ-icon');
+                        const text = btn.querySelector('.organ-text');
+                        
+                        icon.classList.remove('bg-orange-50');
+                        icon.classList.remove('border-orange-100');
+                        icon.classList.add('bg-white');
+                        icon.classList.add('border-gray-100');
+                        
+                        text.classList.remove('text-orange-500');
+                        text.classList.add('text-gray-600');
+                    });
+                    
+                    // 添加当前按钮的激活状态
+                    this.classList.add('active');
+                    const icon = this.querySelector('.organ-icon');
+                    const text = this.querySelector('.organ-text');
+                    
+                    icon.classList.remove('bg-white');
+                    icon.classList.remove('border-gray-100');
+                    icon.classList.add('bg-orange-50');
+                    icon.classList.add('border-orange-100');
+                    
+                    text.classList.remove('text-gray-600');
+                    text.classList.add('text-orange-500');
+                    
+                    // 隐藏所有器官高亮
+                    const allHighlights = document.querySelectorAll('[id$="-highlight"]');
+                    allHighlights.forEach(highlight => {
+                        highlight.style.display = 'none';
+                    });
+                    
+                    // 显示当前器官高亮
+                    const organType = this.getAttribute('data-organ');
+                    const highlight = document.getElementById(organType + '-highlight');
+                    if (highlight) {
+                        highlight.style.display = 'block';
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html> 

@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>适老化导诊APP - 注册</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #1E88E5;
+            --secondary-color: #FFA000;
+            --light-gray: #f5f5f5;
+            --text-dark: #212121;
+            --text-light: #757575;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", system-ui, sans-serif;
+            padding: 0;
+            margin: 0;
+            background-color: #FFFFFF;
+            color: var(--text-dark);
+        }
+        
+        /* 顶部状态栏 */
+        .status-bar {
+            display: flex;
+            justify-content: space-between;
+            padding: 14px 20px 10px;
+            font-size: 14px;
+            font-weight: 600;
+            background-color: #FFFFFF;
+        }
+        
+        .time {
+            flex: 1;
+            text-align: center;
+        }
+        
+        .status-icons {
+            display: flex;
+            gap: 5px;
+        }
+        
+        /* 头部标题栏 */
+        .header {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 15px 20px;
+            position: relative;
+            border-bottom: 1px solid #EEEEEE;
+        }
+        
+        .header h1 {
+            font-size: 20px;
+            font-weight: 600;
+            margin: 0;
+        }
+        
+        .back-btn {
+            position: absolute;
+            left: 20px;
+            background: none;
+            border: none;
+            font-size: 20px;
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+        }
+        
+        /* 注册表单 */
+        .register-container {
+            padding: 30px;
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+            position: relative;
+        }
+        
+        .form-group label {
+            display: block;
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: var(--text-dark);
+        }
+        
+        .input-with-icon {
+            position: relative;
+        }
+        
+        .input-with-icon i {
+            position: absolute;
+            left: 15px;
+            top: 18px;
+            color: var(--text-light);
+            font-size: 20px;
+        }
+        
+        .input-field {
+            width: 100%;
+            padding: 15px 15px 15px 50px;
+            border: 1px solid #DDDDDD;
+            border-radius: 12px;
+            font-size: 18px;
+            background-color: var(--light-gray);
+        }
+        
+        .input-field:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px rgba(30,136,229,0.2);
+        }
+        
+        .verification-code {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .verification-code .input-field {
+            flex: 1;
+        }
+        
+        .verification-code button {
+            background-color: var(--light-gray);
+            border: 1px solid #DDDDDD;
+            border-radius: 12px;
+            padding: 0 15px;
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--primary-color);
+            white-space: nowrap;
+            min-width: 120px;
+        }
+        
+        /* 性别选择 */
+        .gender-options {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .gender-option {
+            flex: 1;
+            padding: 15px;
+            border: 2px solid #DDDDDD;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            background-color: var(--light-gray);
+        }
+        
+        .gender-option.selected {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+            background-color: rgba(30,136,229,0.1);
+        }
+        
+        /* 出生日期 */
+        .date-selector {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .date-part {
+            flex: 1;
+            position: relative;
+        }
+        
+        .date-part select {
+            width: 100%;
+            padding: 15px 15px 15px 15px;
+            border: 1px solid #DDDDDD;
+            border-radius: 12px;
+            font-size: 18px;
+            background-color: var(--light-gray);
+            appearance: none;
+        }
+        
+        .date-part i {
+            position: absolute;
+            right: 15px;
+            top: 18px;
+            pointer-events: none;
+            color: var(--text-light);
+        }
+        
+        /* 注册按钮 */
+        .register-btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            padding: 16px;
+            font-size: 18px;
+            font-weight: 600;
+            width: 100%;
+            margin-top: 30px;
+            box-shadow: 0 4px 10px rgba(30,136,229,0.3);
+        }
+        
+        .register-btn:active {
+            transform: scale(0.98);
+        }
+        
+        /* 协议 */
+        .terms {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 14px;
+            color: var(--text-light);
+            line-height: 1.6;
+        }
+        
+        .terms a {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+        
+        .login-link {
+            margin-top: 30px;
+            text-align: center;
+            font-size: 16px;
+        }
+        
+        .login-link a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <!-- 顶部状态栏 -->
+    <div class="status-bar">
+        <div class="time">9:41</div>
+        <div class="status-icons">
+            <i class="fas fa-signal"></i>
+            <i class="fas fa-wifi"></i>
+            <i class="fas fa-battery-full"></i>
+        </div>
+    </div>
+    
+    <!-- 头部标题栏 -->
+    <div class="header">
+        <a href="#" class="back-btn">
+            <i class="fas fa-arrow-left"></i>
+        </a>
+        <h1>创建账号</h1>
+    </div>
+    
+    <!-- 注册表单 -->
+    <div class="register-container">
+        <div class="form-group">
+            <label for="name">姓名</label>
+            <div class="input-with-icon">
+                <i class="fas fa-user"></i>
+                <input type="text" id="name" class="input-field" placeholder="请输入真实姓名">
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <label for="id-card">身份证号</label>
+            <div class="input-with-icon">
+                <i class="fas fa-id-card"></i>
+                <input type="text" id="id-card" class="input-field" placeholder="请输入身份证号码">
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <label for="phone">手机号码</label>
+            <div class="input-with-icon">
+                <i class="fas fa-mobile-alt"></i>
+                <input type="tel" id="phone" class="input-field" placeholder="请输入手机号码">
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <label for="verification">验证码</label>
+            <div class="verification-code">
+                <div class="input-with-icon">
+                    <i class="fas fa-key"></i>
+                    <input type="text" id="verification" class="input-field" placeholder="请输入验证码">
+                </div>
+                <button type="button">获取验证码</button>
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <label>性别</label>
+            <div class="gender-options">
+                <div class="gender-option selected">
+                    <i class="fas fa-male"></i>
+                    <span>男</span>
+                </div>
+                <div class="gender-option">
+                    <i class="fas fa-female"></i>
+                    <span>女</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <label>出生日期</label>
+            <div class="date-selector">
+                <div class="date-part">
+                    <select>
+                        <option value="" disabled selected>年</option>
+                        <option value="1950">1950</option>
+                        <option value="1951">1951</option>
+                        <option value="1952">1952</option>
+                        <!-- 更多年份选项 -->
+                        <option value="2023">2023</option>
+                    </select>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="date-part">
+                    <select>
+                        <option value="" disabled selected>月</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <!-- 更多月份选项 -->
+                        <option value="12">12</option>
+                    </select>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="date-part">
+                    <select>
+                        <option value="" disabled selected>日</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <!-- 更多日期选项 -->
+                        <option value="31">31</option>
+                    </select>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <label for="password">设置密码</label>
+            <div class="input-with-icon">
+                <i class="fas fa-lock"></i>
+                <input type="password" id="password" class="input-field" placeholder="请设置登录密码">
+            </div>
+        </div>
+        
+        <button class="register-btn">注册</button>
+        
+        <div class="terms">
+            注册即表示您同意我们的 <a href="#">服务条款</a> 和 <a href="#">隐私政策</a>
+        </div>
+        
+        <div class="login-link">
+            已有账号? <a href="#">立即登录</a>
+        </div>
+    </div>
+</body>
+</html> 

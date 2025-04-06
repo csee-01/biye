@@ -872,122 +872,97 @@
         </button>
     </div>
 
-    <!-- AR导航界面 -->
-    <div id="arNavigationPage" class="fixed inset-0 bg-black hidden">
-        <!-- 顶部导航栏 -->
-        <div class="flex justify-between items-center px-5 py-3">
-            <div class="flex items-center">
-                <button onclick="hideARNavigation()" class="mr-4">
-                    <i class="ri-arrow-left-s-line text-2xl text-white"></i>
-                </button>
-                <h1 class="text-lg font-semibold text-white">AR导航</h1>
+    <!-- 二级页面：AR导航 -->
+    <div id="arNavigationPage" class="fixed inset-0 bg-white transform translate-x-full transition-transform duration-300 z-50">
+        <!-- AR相机视图 -->
+        <div class="relative h-screen">
+            <!-- 实时相机预览 -->
+            <div class="absolute inset-0 bg-black">
+                <img src="https://img.freepik.com/free-photo/hospital-corridor-with-empty-chairs_1339-7227.jpg" 
+                     alt="医院走廊" class="w-full h-full object-cover">
             </div>
-        </div>
 
-        <!-- 主要内容区域 -->
-        <div class="flex-1 relative">
-            <!-- 实时相机画面 -->
-            <div class="absolute inset-0">
-                <img src="https://img.freepik.com/free-photo/empty-hospital-hallway_23-2148994817.jpg" alt="医院走廊" class="w-full h-full object-cover">
-                <!-- 3D导航箭头 -->
-                <div class="absolute inset-0 flex items-center justify-center">
-                    <div class="relative">
-                        <div class="w-16 h-16 bg-orange-500 rounded-full opacity-20 animate-pulse"></div>
-                        <div class="absolute inset-0 flex items-center justify-center">
-                            <i class="ri-arrow-up-line text-4xl text-orange-500"></i>
-                        </div>
+            <!-- 顶部导航栏 -->
+            <div class="absolute top-0 left-0 right-0 bg-black bg-opacity-50 text-white px-5 py-4 flex items-center justify-between">
+                <button onclick="hideARNavigation()" class="flex items-center">
+                    <i class="ri-arrow-left-line text-2xl"></i>
+                    <span class="ml-2">返回</span>
+                </button>
+                <div class="flex items-center">
+                    <i class="ri-camera-line text-xl"></i>
+                    <span class="ml-2">AR导航</span>
+                </div>
+                <div class="w-8"></div>
+            </div>
+
+            <!-- 速度指示器 -->
+            <div class="absolute top-16 left-5 bg-white rounded-full px-4 py-2 flex items-center">
+                <span class="text-xl font-semibold">5.23</span>
+                <span class="text-sm text-gray-500 ml-1">km/h</span>
+            </div>
+
+            <!-- AR导航元素 -->
+            <div class="absolute inset-0 flex items-center justify-center">
+                <!-- 3D箭头指示 -->
+                <div class="perspective-container">
+                    <div class="flex flex-col items-center gap-20">
+                        <img src="https://cdn3.iconfinder.com/data/icons/arrows-set-12/512/arrow-forward-3d-512.png" 
+                             alt="导航箭头" class="w-20 h-20 opacity-80">
+                        <img src="https://cdn3.iconfinder.com/data/icons/arrows-set-12/512/arrow-forward-3d-512.png" 
+                             alt="导航箭头" class="w-16 h-16 opacity-60">
+                        <img src="https://cdn3.iconfinder.com/data/icons/arrows-set-12/512/arrow-forward-3d-512.png" 
+                             alt="导航箭头" class="w-12 h-12 opacity-40">
                     </div>
                 </div>
             </div>
 
-            <!-- 导航信息 -->
-            <div class="absolute bottom-32 left-5 right-5">
-                <div class="bg-white bg-opacity-10 backdrop-blur-md rounded-xl p-4">
-                    <div class="flex items-center justify-between mb-3">
-                        <div class="flex items-center">
-                            <div class="w-8 h-8 rounded-full bg-orange-50 flex items-center justify-center">
-                                <i class="ri-map-pin-line text-lg text-orange-500"></i>
+            <!-- 右侧功能按钮 -->
+            <div class="absolute right-5 top-1/4 flex flex-col gap-4">
+                <button class="w-10 h-10 rounded-full bg-black bg-opacity-50 flex items-center justify-center">
+                    <i class="ri-camera-switch-line text-white text-xl"></i>
+                </button>
+                <button class="w-10 h-10 rounded-full bg-black bg-opacity-50 flex items-center justify-center">
+                    <i class="ri-screenshot-2-line text-white text-xl"></i>
+                </button>
+                <button class="w-10 h-10 rounded-full bg-black bg-opacity-50 flex items-center justify-center">
+                    <i class="ri-volume-up-line text-white text-xl"></i>
+                </button>
+            </div>
+
+            <!-- 底部导航卡片 -->
+            <div class="absolute bottom-8 left-5 right-5">
+                <div class="bg-white rounded-xl p-4 shadow-lg">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-full bg-blue-500 flex items-center justify-center">
+                                <i class="ri-hospital-line text-white text-xl"></i>
                             </div>
-                            <h3 class="ml-3 text-white font-medium">内科门诊</h3>
+                            <div>
+                                <h3 class="font-medium">内科 - 202诊室</h3>
+                                <p class="text-sm text-gray-500">2号楼 2楼</p>
+                            </div>
                         </div>
-                        <span class="text-orange-500 text-sm">剩余 50m</span>
                     </div>
-                    <div class="w-full h-1 bg-white bg-opacity-20 rounded-full mb-3">
-                        <div class="w-1/2 h-full bg-orange-500 rounded-full"></div>
+
+                    <!-- 距离进度条 -->
+                    <div class="space-y-2">
+                        <div class="flex justify-between text-sm">
+                            <span class="text-gray-500">剩余 50米</span>
+                            <span class="text-blue-500">约1分钟</span>
+                        </div>
+                        <div class="relative h-1 bg-gray-100 rounded-full overflow-hidden">
+                            <div class="absolute left-0 top-0 h-full w-3/4 bg-blue-500 rounded-full"></div>
+                        </div>
                     </div>
-                    <p class="text-gray-300 text-sm">请沿箭头方向直行，在第一个路口右转</p>
-                </div>
-            </div>
 
-            <!-- 底部控制栏 -->
-            <div class="absolute bottom-0 left-0 right-0 p-4">
-                <div class="flex justify-around items-center">
-                    <button class="w-14 h-14 rounded-full bg-white bg-opacity-20 backdrop-blur-md flex items-center justify-center">
-                        <i class="ri-volume-up-line text-2xl text-white"></i>
-                    </button>
-                    <button class="w-16 h-16 rounded-full bg-orange-500 flex items-center justify-center">
-                        <i class="ri-pause-line text-2xl text-white"></i>
-                    </button>
-                    <button class="w-14 h-14 rounded-full bg-white bg-opacity-20 backdrop-blur-md flex items-center justify-center">
-                        <i class="ri-camera-line text-2xl text-white"></i>
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- 编辑流程弹窗 -->
-    <div id="editProcessModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden">
-        <div class="absolute bottom-0 left-0 right-0 bg-white rounded-t-2xl p-5">
-            <div class="flex items-center justify-between mb-4">
-                <h3 class="text-lg font-semibold">编辑导诊流程</h3>
-                <button onclick="hideEditProcessModal()" class="text-gray-400">
-                    <i class="ri-close-line text-2xl"></i>
-                </button>
-            </div>
-
-            <!-- 流程列表 -->
-            <div class="space-y-3 mb-6">
-                <div class="process-item flex items-center justify-between p-3 bg-gray-50 rounded-xl">
-                    <div class="flex items-center">
-                        <i class="ri-drag-move-2-line text-gray-400 mr-3"></i>
-                        <div class="w-8 h-8 rounded-full bg-orange-500 flex items-center justify-center text-white text-sm">1</div>
-                        <span class="ml-3 font-medium">分诊</span>
-                    </div>
-                    <div class="flex items-center gap-3">
-                        <button class="text-gray-400">
-                            <i class="ri-edit-line"></i>
-                        </button>
-                        <button class="text-red-400">
-                            <i class="ri-delete-bin-line"></i>
-                        </button>
+                    <!-- 导航提示 -->
+                    <div class="flex items-center mt-4 py-3 px-4 bg-gray-50 rounded-xl">
+                        <i class="ri-arrow-right-line text-blue-500 text-xl"></i>
+                        <span class="ml-3 text-gray-600">沿走廊直行，目的地在右手边</span>
+                        <i class="ri-arrow-right-s-line text-gray-400 ml-auto"></i>
                     </div>
                 </div>
-
-                <div class="process-item flex items-center justify-between p-3 bg-gray-50 rounded-xl">
-                    <div class="flex items-center">
-                        <i class="ri-drag-move-2-line text-gray-400 mr-3"></i>
-                        <div class="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center text-gray-400 text-sm">2</div>
-                        <span class="ml-3 font-medium">挂号</span>
-                    </div>
-                    <div class="flex items-center gap-3">
-                        <button class="text-gray-400">
-                            <i class="ri-edit-line"></i>
-                        </button>
-                        <button class="text-red-400">
-                            <i class="ri-delete-bin-line"></i>
-                        </button>
-                    </div>
-                </div>
-
-                <!-- 更多流程项... -->
             </div>
-
-            <!-- 添加新流程按钮 -->
-            <button class="w-full py-3 bg-orange-50 text-orange-500 rounded-xl text-lg font-medium flex items-center justify-center">
-                <i class="ri-add-line mr-2"></i>
-                添加新流程
-            </button>
         </div>
     </div>
 
@@ -1030,11 +1005,11 @@
 
         // AR导航页面控制
         function showARNavigation() {
-            document.getElementById('arNavigationPage').classList.remove('hidden');
+            document.getElementById('arNavigationPage').style.transform = 'translateX(0)';
         }
 
         function hideARNavigation() {
-            document.getElementById('arNavigationPage').classList.add('hidden');
+            document.getElementById('arNavigationPage').style.transform = 'translateX(100%)';
         }
 
         // 器官切换功能
@@ -1048,8 +1023,6 @@
                 icon.style.display = 'flex';
                 icon.style.opacity = '1';
                 icon.style.visibility = 'visible';
-                icon.style.position = 'relative';
-                icon.style.zIndex = '10';
             });
             
             organButtons.forEach(button => {
@@ -1066,8 +1039,6 @@
                         icon.style.display = 'flex';
                         icon.style.opacity = '1';
                         icon.style.visibility = 'visible';
-                        icon.style.position = 'relative';
-                        icon.style.zIndex = '10';
                         
                         // 更新图标样式
                         icon.className = `w-14 h-14 rounded-full ${isSelected ? 'bg-orange-50 border-orange-100' : 'bg-white border-gray-100'} shadow-sm border flex items-center justify-center organ-icon`;
@@ -1088,18 +1059,6 @@
                 });
             });
         });
-
-        // 编辑流程弹窗控制
-        function showEditProcessModal() {
-            document.getElementById('editProcessModal').classList.remove('hidden');
-        }
-
-        function hideEditProcessModal() {
-            document.getElementById('editProcessModal').classList.add('hidden');
-        }
-
-        // 修改顶部标题栏的编辑按钮点击事件
-        document.querySelector('.ri-edit-line').parentElement.onclick = showEditProcessModal;
 
         // 初始化显示分诊页面
         showProcess('triage');

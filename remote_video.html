@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>适老化导诊APP - 远程视频协助</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    <style>
+        .ios-blur {
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .video-container {
+            aspect-ratio: 16/9;
+            background: #000;
+            position: relative;
+        }
+        .video-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.3), rgba(0,0,0,0.1));
+        }
+    </style>
+</head>
+<body class="bg-black h-screen flex flex-col">
+    <!-- 固定顶部区域 -->
+    <div class="flex-none">
+        <!-- 状态栏 -->
+        <div class="flex justify-between items-center px-5 pt-3 pb-1">
+            <span class="font-semibold text-sm text-white">9:41</span>
+            <div class="flex items-center gap-1">
+                <svg class="w-4 h-4 text-white" viewBox="0 0 24 24" fill="currentColor">
+                    <rect x="2" y="15" width="4" height="5" rx="1" />
+                    <rect x="8" y="11" width="4" height="9" rx="1" />
+                    <rect x="14" y="7" width="4" height="13" rx="1" />
+                    <rect x="20" y="3" width="4" height="17" rx="1" />
+                </svg>
+                <svg class="w-4 h-4 text-white" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12,21L15.6,16.2C14.6,15.45 13.35,15 12,15C10.65,15 9.4,15.45 8.4,16.2L12,21" />
+                    <path opacity="0.9" d="M12,9C8.5,9 5.3,10.5 3,13.2L4.2,14.6C6.2,12.4 9,11 12,11C15,11 17.8,12.4 19.8,14.6L21,13.2C18.7,10.5 15.5,9 12,9Z" />
+                </svg>
+                <svg class="w-6 h-3 text-white" viewBox="0 0 25 12" fill="currentColor">
+                    <rect x="0.5" y="0.5" width="21" height="11" rx="2.5" stroke="currentColor" fill="none" />
+                    <rect x="2" y="2" width="18" height="8" rx="1.5" />
+                </svg>
+            </div>
+        </div>
+
+        <!-- 顶部信息栏 -->
+        <div class="flex justify-between items-center px-5 py-3">
+            <div class="flex items-center">
+                <a href="remote_help.html" class="mr-4">
+                    <i class="ri-arrow-left-s-line text-2xl text-white"></i>
+                </a>
+                <div class="flex items-center">
+                    <div class="w-8 h-8 rounded-full bg-orange-50 flex items-center justify-center">
+                        <i class="ri-user-line text-lg text-orange-500"></i>
+                    </div>
+                    <div class="ml-3">
+                        <h1 class="text-lg font-semibold text-white">张小明</h1>
+                        <p class="text-sm text-gray-300">正在视频通话</p>
+                    </div>
+                </div>
+            </div>
+            <div class="flex items-center gap-2">
+                <button class="w-10 h-10 rounded-full bg-white bg-opacity-20 flex items-center justify-center">
+                    <i class="ri-volume-up-line text-xl text-white"></i>
+                </button>
+                <button class="w-10 h-10 rounded-full bg-white bg-opacity-20 flex items-center justify-center">
+                    <i class="ri-video-line text-xl text-white"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 主要内容区域 -->
+    <div class="flex-1 overflow-y-auto hide-scrollbar">
+        <!-- 视频区域 -->
+        <div class="video-container">
+            <div class="video-overlay"></div>
+            <div class="absolute inset-0 flex items-center justify-center">
+                <div class="w-24 h-24 rounded-full bg-orange-500 bg-opacity-20 flex items-center justify-center">
+                    <i class="ri-team-line text-4xl text-white"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- 操作提示 -->
+        <div class="px-5 py-4">
+            <div class="bg-white bg-opacity-10 rounded-xl p-4">
+                <div class="flex items-center mb-3">
+                    <div class="w-8 h-8 rounded-full bg-orange-50 flex items-center justify-center">
+                        <i class="ri-lightbulb-line text-lg text-orange-500"></i>
+                    </div>
+                    <h3 class="ml-3 text-white font-medium">操作提示</h3>
+                </div>
+                <p class="text-gray-300 text-sm">您的子女正在远程协助您操作，请保持手机稳定，不要关闭此页面。</p>
+            </div>
+        </div>
+
+        <!-- 快捷操作 -->
+        <div class="px-5 py-4">
+            <h2 class="text-lg font-semibold text-white mb-4">快捷操作</h2>
+            <div class="grid grid-cols-2 gap-3">
+                <button class="p-4 bg-white bg-opacity-10 rounded-xl flex flex-col items-center">
+                    <i class="ri-screenshot-line text-2xl text-white mb-2"></i>
+                    <span class="text-sm text-white">截屏</span>
+                </button>
+                <button class="p-4 bg-white bg-opacity-10 rounded-xl flex flex-col items-center">
+                    <i class="ri-pencil-line text-2xl text-white mb-2"></i>
+                    <span class="text-sm text-white">标注</span>
+                </button>
+                <button class="p-4 bg-white bg-opacity-10 rounded-xl flex flex-col items-center">
+                    <i class="ri-file-list-line text-2xl text-white mb-2"></i>
+                    <span class="text-sm text-white">查看记录</span>
+                </button>
+                <button class="p-4 bg-white bg-opacity-10 rounded-xl flex flex-col items-center">
+                    <i class="ri-settings-line text-2xl text-white mb-2"></i>
+                    <span class="text-sm text-white">设置</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 底部控制栏 -->
+    <div class="flex-none p-4">
+        <div class="flex justify-around items-center">
+            <button class="w-14 h-14 rounded-full bg-white bg-opacity-20 flex items-center justify-center">
+                <i class="ri-mic-line text-2xl text-white"></i>
+            </button>
+            <button class="w-16 h-16 rounded-full bg-red-500 flex items-center justify-center">
+                <i class="ri-phone-off-line text-2xl text-white"></i>
+            </button>
+            <button class="w-14 h-14 rounded-full bg-white bg-opacity-20 flex items-center justify-center">
+                <i class="ri-camera-line text-2xl text-white"></i>
+            </button>
+        </div>
+    </div>
+</body>
+</html> 
